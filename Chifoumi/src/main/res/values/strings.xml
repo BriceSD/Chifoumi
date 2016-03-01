@@ -1,0 +1,21 @@
+<resources>
+  <string name="app_name">Chifoumi</string>
+
+  <string name="hello_world">Hello world!</string>
+  <string name="action_settings" translatable="false">Settings</string>
+  <string name="actionImg">actionImg</string>
+  <string name="player_result">Player : </string>
+  <string name="computer_result"> / Computer : </string>
+  <string-array name="cards_name">
+    <item>Pit</item>
+    <item>Rock</item>
+    <item>Scissors</item>
+    <item>Sheet</item>
+  </string-array>
+  <string-array name="img_ids">
+    <item>@drawable/pit</item>
+    <item>@drawable/rock</item>
+    <item>@drawable/scissor</item>
+    <item>@drawable/sheet</item>
+  </string-array>
+</resources>

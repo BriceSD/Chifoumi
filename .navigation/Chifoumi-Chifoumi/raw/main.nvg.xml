@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "iutsd.android.tp1.saunier_debes_brice.chifoumi.MainActivity"/>
+      <point      
+        x = "500"      
+        y = "100"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.MenuState"      
+        className = "iutsd.android.tp1.saunier_debes_brice.chifoumi.MainActivity"/>
+      <point      
+        x = "1624"      
+        y = "164"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

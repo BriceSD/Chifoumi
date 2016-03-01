@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Chifoumi</string>
+  <string name="hello_world">Bonjour le monde!</string>
+  <string-array name="cards_name">
+    <item>Puit</item>
+    <item>Pierre</item>
+    <item>Ciseaux</item>
+    <item>Feuille</item>
+  </string-array>
+</resources>
