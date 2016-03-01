@@ -88,7 +88,6 @@ public class ImagesAdapter
 
 // -------------------------- INNER CLASSES --------------------------
 
-
   /**
    * The type Images view holder.
    */

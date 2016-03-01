@@ -10,16 +10,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * The type Main activity.
+ */
 public class MainActivity
     extends AppCompatActivity {
 
 // ------------------------------ FIELDS ------------------------------
 
+  /**
+   * The Adapter.
+   */
   ImagesAdapter adapter;
-  int computerScore;
-  int playerScore;
+  /**
+   * The Computer score.
+   */
+  int           computerScore;
+  /**
+   * The Player score.
+   */
+  int           playerScore;
 
 // -------------------------- OTHER METHODS --------------------------
+
+  /**
+   * On click snackbar.
+   *
+   * @param v the v
+   */
+  public void onClickSnackbar(View v) {
+    Snackbar.make(findViewById(android.R.id.content), "Replace with your own action",
+        Snackbar.LENGTH_LONG).setAction("Action", null).show();
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,25 +81,21 @@ public class MainActivity
                 computerWin(computerChoice);
               else
                 draw(computerChoice);
-            }
-            else if (playerHasSelectedRock){
+            } else if (playerHasSelectedRock) {
               if (computerHasSelectedSheet || computerHasSelectedPit)
                 computerWin(computerChoice);
               else if (computerHasSelectedScissors)
                 playerWin(computerChoice);
-
               else
                 draw(computerChoice);
-            }
-            else if (playerHasSelectedScissors){
+            } else if (playerHasSelectedScissors) {
               if (computerHasSelectedRock || computerHasSelectedPit)
                 computerWin(computerChoice);
               else if (computerHasSelectedSheet)
                 playerWin(computerChoice);
               else
                 draw(computerChoice);
-            }
-            else if (playerHasSelectedSheet){
+            } else if (playerHasSelectedSheet) {
               if (computerHasSelectedScissors || computerHasSelectedPit)
                 computerWin(computerChoice);
               else if (computerHasSelectedRock)
@@ -87,22 +105,32 @@ public class MainActivity
             }
           }
         }));
+  }
 
-
-   }
-
-  private void draw(int computerChoice) {makeDrawAlert(computerChoice);}
-
+  /**
+   * Computer win.
+   *
+   * @param computerChoice the computer choice
+   */
   private void computerWin(int computerChoice) {
     computerScore++;
     setScoreText();
     makeComputerWinAlert(computerChoice);
   }
 
-  private void setScoreText() {TextView scoreView = (TextView) findViewById(R.id.scores_msg);
+  /**
+   * Sets score text.
+   */
+  private void setScoreText() {
+    TextView scoreView = (TextView) findViewById(R.id.scores_msg);
     scoreView.setText(makeMessage());
   }
 
+  /**
+   * Make message string.
+   *
+   * @return the string
+   */
   private String makeMessage() {
     String msg = getBaseContext().getString(R.string.player_result);
     msg += " " + this.playerScore;
@@ -111,28 +139,50 @@ public class MainActivity
     return msg;
   }
 
+  /**
+   * Make computer win alert.
+   *
+   * @param computerChoice the computer choice
+   */
+  private void makeComputerWinAlert(int computerChoice) {
+
+  }
+
+  /**
+   * Player win.
+   *
+   * @param computerChoice the computer choice
+   */
   private void playerWin(int computerChoice) {
     playerScore++;
     setScoreText();
     makePlayerWinAlert(computerChoice);
   }
 
-  private void makeDrawAlert(int computerChoice) {
-
-  }
-
-  private void makeComputerWinAlert(int computerChoice) {
-
-  }
-
+  /**
+   * Make player win alert.
+   *
+   * @param computerChoice the computer choice
+   */
   private void makePlayerWinAlert(int computerChoice) {
 
   }
 
+  /**
+   * Draw.
+   *
+   * @param computerChoice the computer choice
+   */
+  private void draw(int computerChoice) {
+    makeDrawAlert(computerChoice);
+  }
 
-  public void onClickSnackbar(View v) {
-    Snackbar.make(findViewById(android.R.id.content), "Replace with your own action", Snackbar.LENGTH_LONG)
-        .setAction("Action", null).show();
+  /**
+   * Make draw alert.
+   *
+   * @param computerChoice the computer choice
+   */
+  private void makeDrawAlert(int computerChoice) {
 
   }
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Chifoumi</string>
   <string name="hello_world">Bonjour le monde!</string>
   <string-array name="cards_name">
     <item>Puit</item>
@@ -8,4 +7,6 @@
     <item>Ciseaux</item>
     <item>Feuille</item>
   </string-array>
+  <string name="player_result">Joueur :</string>
+  <string name="computer_result">/ Ordinateur :</string>
 </resources>

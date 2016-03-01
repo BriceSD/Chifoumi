@@ -1,11 +1,12 @@
 <resources>
-  <string name="app_name">Chifoumi</string>
-
+  <string name="app_name" translatable="false">Chifoumi</string>
   <string name="hello_world">Hello world!</string>
   <string name="action_settings" translatable="false">Settings</string>
-  <string name="actionImg">actionImg</string>
-  <string name="player_result">Player : </string>
-  <string name="computer_result"> / Computer : </string>
+  <string name="actionImg" translatable="false">actionImg</string>
+  <string name="player_result">Player :</string>
+  <string name="player_result_popup">Player :</string>
+  <string name="computer_result">/ Computer :</string>
+  <string name="computer_result_popup">/ Computer :</string>
   <string-array name="cards_name">
     <item>Pit</item>
     <item>Rock</item>
