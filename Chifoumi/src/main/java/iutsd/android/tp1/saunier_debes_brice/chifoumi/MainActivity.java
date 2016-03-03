@@ -96,10 +96,10 @@ public class MainActivity
               else
                 draw(computerChoice);
             } else if (playerHasSelectedSheet) {
-              if (computerHasSelectedScissors || computerHasSelectedPit)
-                computerWin(computerChoice);
-              else if (computerHasSelectedRock)
+              if (computerHasSelectedRock || computerHasSelectedPit)
                 playerWin(computerChoice);
+              else if (computerHasSelectedScissors)
+                computerWin(computerChoice);
               else
                 draw(computerChoice);
             }
@@ -123,19 +123,19 @@ public class MainActivity
    */
   private void setScoreText() {
     TextView scoreView = (TextView) findViewById(R.id.scores_msg);
-    scoreView.setText(makeMessage());
+    scoreView.setText(makeScoreMessage());
   }
 
   /**
-   * Make message string.
+   * Make the score message string.
    *
-   * @return the string
+   * @return the score message.
    */
-  private String makeMessage() {
+  private String makeScoreMessage() {
     String msg = getBaseContext().getString(R.string.player_result);
-    msg += " " + this.playerScore;
+    msg += " " + playerScore;
     msg += " " + getBaseContext().getString(R.string.computer_result);
-    msg += " " + this.computerScore;
+    msg += " " + computerScore;
     return msg;
   }
 
