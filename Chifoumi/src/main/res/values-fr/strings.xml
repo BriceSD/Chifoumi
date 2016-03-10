@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="hello_world">Bonjour le monde!</string>
   <string-array name="cards_name">
     <item>Puit</item>
     <item>Pierre</item>
@@ -9,4 +8,8 @@
   </string-array>
   <string name="player_result">Joueur :</string>
   <string name="computer_result">/ Ordinateur :</string>
+  <string name="action_settings">Paramètres</string>
+  <string name="computer_win_result_popup"> - Ordinateur gagne</string>
+  <string name="draw_result_popup"> - Match nul</string>
+  <string name="player_win_result_popup"> - Joueur gagne</string>
 </resources>
