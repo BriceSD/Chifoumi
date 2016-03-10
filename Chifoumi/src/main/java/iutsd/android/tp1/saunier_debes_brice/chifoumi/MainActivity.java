@@ -62,33 +62,38 @@ public class MainActivity
     return msg;
   }
 
-  /**
-   * On click snackbar.
-   *
-   * @param v the v
-   */
-  public void onClickSnackbar(View v) {
-    Snackbar.make(findViewById(android.R.id.content), "Replace with your own action",
-        Snackbar.LENGTH_LONG).setAction("Action", null).show();
-  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    RecyclerView cList = (RecyclerView) findViewById(R.id.cardsList);
+    RecyclerView cardsList;
 
+    cardsList = setUpCardsListView();
+    setUpLayoutManager(cardsList);
+    setOnItemTouchListener(cardsList);
+    eraseScoreMessageIfNeeded();
+  }
+
+  private RecyclerView setUpCardsListView() {
     adapter = new ImagesAdapter(this);
-    cList.setAdapter(adapter);
 
+    RecyclerView cardsList = (RecyclerView) findViewById(R.id.cards_list);
+    cardsList.setAdapter(adapter);
+    return cardsList;
+  }
+
+  private void setUpLayoutManager(RecyclerView cardsList) {
     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-      cList.setLayoutManager(new GridLayoutManager(this, 2));
+      cardsList.setLayoutManager(new GridLayoutManager(this, 2));
     else
-      cList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+      cardsList
+          .setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+  }
 
-
-    cList.addOnItemTouchListener(new RecyclerItemClickListener(getBaseContext(),
+  private void setOnItemTouchListener(RecyclerView cardsList) {
+    cardsList.addOnItemTouchListener(new RecyclerItemClickListener(getBaseContext(),
         new RecyclerItemClickListener.OnItemClickListener() {
           @SuppressWarnings("Duplicates")
           @Override
@@ -220,11 +225,23 @@ public class MainActivity
         Snackbar.LENGTH_LONG).setAction("Action", null).show();
   }
 
+  private void eraseScoreMessageIfNeeded() {
+    TextView scoreMsg = (TextView) findViewById(R.id.scores_msg);
+    if (playerScore <= 0 && computerScore <= 0)
+      scoreMsg.setText("");
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_main, menu);
     return true;
+  }
+
+  public void onEraseButtonClick(View v) {
+    this.computerScore = 0;
+    this.playerScore = 0;
+    eraseScoreMessageIfNeeded();
   }
 
   @Override
@@ -252,6 +269,12 @@ public class MainActivity
 
     TextView scoreMsg = (TextView) findViewById(R.id.scores_msg);
     scoreMsg.setText(makeScoreMessage());
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    eraseScoreMessageIfNeeded();
   }
 
   @Override
