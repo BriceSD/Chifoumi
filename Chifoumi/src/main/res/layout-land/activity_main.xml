@@ -14,15 +14,15 @@
       android:layout_height="match_parent" android:weightSum="1">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cardsList"
-        android:layout_width="330dp"
-        android:layout_height="360dp" android:layout_gravity="center"
-        android:layout_weight="0.59"/>
+        android:scrollbars="none"
+        android:layout_width="wrap_content"
+        android:layout_height="165dp" android:layout_gravity="center"
+        android:layout_weight="0.59" android:scrollIndicators="none"/>
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" android:gravity="center_vertical|center_horizontal"
-        android:layout_weight="0.09" android:layout_gravity="center"
-        android:layout_marginTop="10dp">
+        android:layout_weight="0.09" android:layout_gravity="center">
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -35,8 +35,7 @@
           android:layout_height="wrap_content"
           android:text="@string/reset_button"
           android:id="@+id/resetButton"
-          android:layout_gravity="center" android:gravity="center"
-      />
+          android:layout_gravity="center" android:gravity="center_vertical|center|center_horizontal"/>
     </LinearLayout>
   </LinearLayout>
 

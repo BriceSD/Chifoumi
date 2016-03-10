@@ -1,20 +1,25 @@
 package iutsd.android.tp1.saunier_debes_brice.chifoumi;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 /**
  * The type Main activity.
  */
 public class MainActivity
-    extends AppCompatActivity {
+    extends AppCompatActivity
+    implements Serializable {
 
 // ------------------------------ FIELDS ------------------------------
 
@@ -32,6 +37,30 @@ public class MainActivity
   int           playerScore;
 
 // -------------------------- OTHER METHODS --------------------------
+
+  private String makeComputerWinMessage(int computerChoice) {
+    String msg = makeComputerChoiceAlertMessage(computerChoice);
+    msg += " " + getBaseContext().getString(R.string.computer_win_result_popup);
+    return msg;
+  }
+
+  private String makeComputerChoiceAlertMessage(int computerChoice) {
+    String msg = getBaseContext().getString(R.string.computer);
+    msg += " " + adapter.getImgName(computerChoice);
+    return msg;
+  }
+
+  private String makeDrawMessage(int computerChoice) {
+    String msg = makeComputerChoiceAlertMessage(computerChoice);
+    msg += " " + getBaseContext().getString(R.string.draw_result_popup);
+    return msg;
+  }
+
+  private String makePlayerWinMessage(int computerChoice) {
+    String msg = makeComputerChoiceAlertMessage(computerChoice);
+    msg += " " + getBaseContext().getString(R.string.player_win_result_popup);
+    return msg;
+  }
 
   /**
    * On click snackbar.
@@ -53,9 +82,11 @@ public class MainActivity
     adapter = new ImagesAdapter(this);
     cList.setAdapter(adapter);
 
-    //recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-    cList.setLayoutManager(new GridLayoutManager(this, 2));
+    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+      cList.setLayoutManager(new GridLayoutManager(this, 2));
+    else
+      cList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+
 
     cList.addOnItemTouchListener(new RecyclerItemClickListener(getBaseContext(),
         new RecyclerItemClickListener.OnItemClickListener() {
@@ -81,6 +112,13 @@ public class MainActivity
                 computerWin(computerChoice);
               else
                 draw(computerChoice);
+            } else if (playerHasSelectedSheet) {
+              if (computerHasSelectedRock || computerHasSelectedPit)
+                playerWin(computerChoice);
+              else if (computerHasSelectedScissors)
+                computerWin(computerChoice);
+              else
+                draw(computerChoice);
             } else if (playerHasSelectedRock) {
               if (computerHasSelectedSheet || computerHasSelectedPit)
                 computerWin(computerChoice);
@@ -93,13 +131,6 @@ public class MainActivity
                 computerWin(computerChoice);
               else if (computerHasSelectedSheet)
                 playerWin(computerChoice);
-              else
-                draw(computerChoice);
-            } else if (playerHasSelectedSheet) {
-              if (computerHasSelectedRock || computerHasSelectedPit)
-                playerWin(computerChoice);
-              else if (computerHasSelectedScissors)
-                computerWin(computerChoice);
               else
                 draw(computerChoice);
             }
@@ -145,7 +176,8 @@ public class MainActivity
    * @param computerChoice the computer choice
    */
   private void makeComputerWinAlert(int computerChoice) {
-
+    Snackbar.make(findViewById(android.R.id.content), makeComputerWinMessage(computerChoice),
+        Snackbar.LENGTH_LONG).setAction("Action", null).show();
   }
 
   /**
@@ -165,7 +197,8 @@ public class MainActivity
    * @param computerChoice the computer choice
    */
   private void makePlayerWinAlert(int computerChoice) {
-
+    Snackbar.make(findViewById(android.R.id.content), makePlayerWinMessage(computerChoice),
+        Snackbar.LENGTH_LONG).setAction("Action", null).show();
   }
 
   /**
@@ -183,7 +216,8 @@ public class MainActivity
    * @param computerChoice the computer choice
    */
   private void makeDrawAlert(int computerChoice) {
-
+    Snackbar.make(findViewById(android.R.id.content), makeDrawMessage(computerChoice),
+        Snackbar.LENGTH_LONG).setAction("Action", null).show();
   }
 
   @Override
@@ -206,5 +240,26 @@ public class MainActivity
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+
+    this.adapter = (ImagesAdapter) savedInstanceState.getSerializable("ImagesAdapter");
+    this.playerScore = savedInstanceState.getInt("PlayerScore");
+    this.computerScore = savedInstanceState.getInt("ComputerScore");
+
+    TextView scoreMsg = (TextView) findViewById(R.id.scores_msg);
+    scoreMsg.setText(makeScoreMessage());
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+
+    outState.putSerializable("ImagesAdapter", this.adapter);
+    outState.putInt("PlayerScore", this.playerScore);
+    outState.putInt("ComputerScore", this.computerScore);
   }
 }

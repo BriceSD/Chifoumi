@@ -12,4 +12,6 @@
   <string name="computer_win_result_popup"> - Ordinateur gagne</string>
   <string name="draw_result_popup"> - Match nul</string>
   <string name="player_win_result_popup"> - Joueur gagne</string>
+  <string name="reset_button">Effacer</string>
+  <string name="computer">Ordinateur :</string>
 </resources>

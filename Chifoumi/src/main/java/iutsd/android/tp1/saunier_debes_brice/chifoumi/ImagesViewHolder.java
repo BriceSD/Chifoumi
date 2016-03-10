@@ -22,7 +22,7 @@ public class ImagesViewHolder extends RecyclerView.ViewHolder {
 
   public ImagesViewHolder(View v){
     super(v);
-    vName = (TextView) v.findViewById(R.id.txtName);
+    vName = (TextView) v.findViewById(R.id.imgName);
     vImage = (ImageView) v.findViewById(R.id.imgContent);
   }
 }

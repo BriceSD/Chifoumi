@@ -15,11 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 /**
  * The type Images adapter.
  */
 public class ImagesAdapter
-    extends RecyclerView.Adapter<ImagesAdapter.ImagesViewHolder> {
+    extends RecyclerView.Adapter<ImagesAdapter.ImagesViewHolder> implements Serializable{
 
 // ------------------------------ FIELDS ------------------------------
 
@@ -27,14 +29,11 @@ public class ImagesAdapter
    * The Context.
    */
   private Context    context;
+
   /**
    * The Img names.
    */
   private String[]   imgNames;
-  /**
-   * The Img i ds.
-   */
-  private TypedArray imgIDs;
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
@@ -46,12 +45,19 @@ public class ImagesAdapter
   public ImagesAdapter(Context context) {
     this.context = context;
     this.imgNames = context.getResources().getStringArray(R.array.cards_name);
-    this.imgIDs = context.getResources().obtainTypedArray(R.array.img_ids);
-
   }
 
 // -------------------------- OTHER METHODS --------------------------
 
+  //lolz
+  private TypedArray getImgIDs() {
+    return context.getResources().obtainTypedArray(R.array.img_ids);
+  }
+
+  public String getImgName(int index) {
+    this.imgNames = context.getResources().getStringArray(R.array.cards_name);
+    return imgNames[index];
+  }
   @Override
   public int getItemCount() {
     return imgNames.length;
@@ -73,8 +79,7 @@ public class ImagesAdapter
    *
    * @return the item
    */
-  private ImagesInfo getItem(int i) {
-    return new ImagesInfo(imgNames[i], imgIDs.getResourceId(i, -1));
+  private ImagesInfo getItem(int i) { return new ImagesInfo(getImgName(i), getImgIDs().getResourceId(i, -1));
   }
 
   @Override
@@ -109,7 +114,7 @@ public class ImagesAdapter
      */
     public ImagesViewHolder(View v) {
       super(v);
-      vName = (TextView) v.findViewById(R.id.txtName);
+      vName = (TextView) v.findViewById(R.id.imgName);
       vImage = (ImageView) v.findViewById(R.id.imgContent);
     }
   }
