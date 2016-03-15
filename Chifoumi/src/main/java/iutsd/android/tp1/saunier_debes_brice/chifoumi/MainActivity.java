@@ -24,38 +24,66 @@ public class MainActivity
 // ------------------------------ FIELDS ------------------------------
 
   /**
-   * The Adapter.
+   * L’image adapter qui contient leurs noms, photos et méthodes pour les convertir en vues
    */
   ImagesAdapter adapter;
   /**
-   * The Computer score.
+   * Le score de l’ordinateur
    */
   int           computerScore;
   /**
-   * The Player score.
+   * Le score du joueur
    */
   int           playerScore;
 
 // -------------------------- OTHER METHODS --------------------------
 
+  /**
+   * Fait le message de victoire de l’ordinateur.
+   *
+   * @param computerChoice l’index du choix de l’ordinateur
+   *
+   * @return La première partie du message de victoire de l’ordinateur
+   */
   private String makeComputerWinMessage(int computerChoice) {
     String msg = makeComputerChoiceAlertMessage(computerChoice);
     msg += " " + getBaseContext().getString(R.string.computer_win_result_popup);
     return msg;
   }
 
+  /**
+   * Fait la première partie du message du snackbar. Soit le symbole sélectionné par l’ordinateur.
+   *
+   * @param computerChoice l’index du choix de l’ordinateur
+   *
+   * @return Le message de victoire de l’ordinateur
+   */
   private String makeComputerChoiceAlertMessage(int computerChoice) {
     String msg = getBaseContext().getString(R.string.computer);
     msg += " " + adapter.getImgName(computerChoice);
     return msg;
   }
 
+  /**
+   * Fait le message de match nul.
+   *
+   * @param computerChoice l’index du choix de l’ordinateur
+   *
+   * @return Le message de match nul
+   */
   private String makeDrawMessage(int computerChoice) {
     String msg = makeComputerChoiceAlertMessage(computerChoice);
     msg += " " + getBaseContext().getString(R.string.draw_result_popup);
     return msg;
   }
 
+  /**
+   * Fait le message de victoire du joueur.
+   *
+   * @param computerChoice l’index du choix de l’ordinateur
+   *
+   * @return La première partie du message de victoire du joueur
+   */
   private String makePlayerWinMessage(int computerChoice) {
     String msg = makeComputerChoiceAlertMessage(computerChoice);
     msg += " " + getBaseContext().getString(R.string.player_win_result_popup);
@@ -76,6 +104,11 @@ public class MainActivity
     eraseScoreMessageIfNeeded();
   }
 
+  /**
+   * Crée la vue contenant les différentes cartes.
+   *
+   * @return La card list view
+   */
   private RecyclerView setUpCardsListView() {
     adapter = new ImagesAdapter(this);
 
@@ -84,20 +117,31 @@ public class MainActivity
     return cardsList;
   }
 
+  /**
+   * Crée le layout manager selon l’orientation de l’écran.
+   *
+   * @param cardsList La card list à attacher au LayoutManager
+   */
   private void setUpLayoutManager(RecyclerView cardsList) {
     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
       cardsList.setLayoutManager(new GridLayoutManager(this, 2));
     else
-      cardsList
-          .setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+      cardsList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
   }
 
+  /**
+   * Mets en place le « on item click listener ». Permet à l’utilisateur de cliquer sur les images.
+   * L’ordinateur fait son choix d’action and en fonction du vaiqueur du match, le nouveau score
+   * est calculé et le nouveau message est affiché
+   *
+   * @param cardsList la cards list contenant les différentes images (actions)
+   */
   private void setOnItemTouchListener(RecyclerView cardsList) {
     cardsList.addOnItemTouchListener(new RecyclerItemClickListener(getBaseContext(),
         new RecyclerItemClickListener.OnItemClickListener() {
           @SuppressWarnings("Duplicates")
           @Override
-          public void onItemClick(View view, int position) {
+          public void onItemClick(View view, int playerChoice) {
             int computerChoice = (int) (Math.random() * 4);
 
             final boolean computerHasSelectedPit      = computerChoice == 0;
@@ -105,10 +149,10 @@ public class MainActivity
             final boolean computerHasSelectedScissors = computerChoice == 2;
             final boolean computerHasSelectedSheet    = computerChoice == 3;
 
-            final boolean playerHasSelectedPit      = position == 0;
-            final boolean playerHasSelectedRock     = position == 1;
-            final boolean playerHasSelectedScissors = position == 2;
-            final boolean playerHasSelectedSheet    = position == 3;
+            final boolean playerHasSelectedPit      = playerChoice == 0;
+            final boolean playerHasSelectedRock     = playerChoice == 1;
+            final boolean playerHasSelectedScissors = playerChoice == 2;
+            final boolean playerHasSelectedSheet    = playerChoice == 3;
 
             if (playerHasSelectedPit) {
               if (computerHasSelectedRock || computerHasSelectedScissors)
@@ -144,9 +188,10 @@ public class MainActivity
   }
 
   /**
-   * Computer win.
+   * Les actions gagnantent de l’ordinateur.
+   * Augmente son score, met à jours le message récapitulant les scores et affiche le snackbar.
    *
-   * @param computerChoice the computer choice
+   * @param computerChoice l’index du choix de l’ordinateur
    */
   private void computerWin(int computerChoice) {
     computerScore++;
@@ -155,7 +200,7 @@ public class MainActivity
   }
 
   /**
-   * Sets score text.
+   * Met le score dans le récapitulatif des scores
    */
   private void setScoreText() {
     TextView scoreView = (TextView) findViewById(R.id.scores_msg);
@@ -163,9 +208,9 @@ public class MainActivity
   }
 
   /**
-   * Make the score message string.
+   * Fait le message de récapitulatif des scores
    *
-   * @return the score message.
+   * @return le message contenant les scores
    */
   private String makeScoreMessage() {
     String msg = getBaseContext().getString(R.string.player_result);
@@ -176,9 +221,9 @@ public class MainActivity
   }
 
   /**
-   * Make computer win alert.
+   * Affiche le snackbar de victoire de l’ordinateur
    *
-   * @param computerChoice the computer choice
+   * @param computerChoice l’index du choix de l’ordinateur
    */
   private void makeComputerWinAlert(int computerChoice) {
     Snackbar.make(findViewById(android.R.id.content), makeComputerWinMessage(computerChoice),
@@ -186,9 +231,10 @@ public class MainActivity
   }
 
   /**
-   * Player win.
+   * Actions en cas de victoire du joueur.
+   * Augmente son score, met à jours le message récapitulant les scores et affiche le snackbar.
    *
-   * @param computerChoice the computer choice
+   * @param computerChoice l’index du choix de l’ordinateur
    */
   private void playerWin(int computerChoice) {
     playerScore++;
@@ -197,9 +243,9 @@ public class MainActivity
   }
 
   /**
-   * Make player win alert.
+   * Affiche le snackbar de victoire du joueur.
    *
-   * @param computerChoice the computer choice
+   * @param computerChoice l’index du choix de l’ordinateur
    */
   private void makePlayerWinAlert(int computerChoice) {
     Snackbar.make(findViewById(android.R.id.content), makePlayerWinMessage(computerChoice),
@@ -207,24 +253,26 @@ public class MainActivity
   }
 
   /**
-   * Draw.
-   *
-   * @param computerChoice the computer choice
+   * Actions en cas de match nul.
+   * @param computerChoice l’index du choix de l’ordinateur
    */
   private void draw(int computerChoice) {
     makeDrawAlert(computerChoice);
   }
 
   /**
-   * Make draw alert.
+   * Affiche le snackbar de match nul
    *
-   * @param computerChoice the computer choice
+   * @param computerChoice l’index du choix de l’ordinateur
    */
   private void makeDrawAlert(int computerChoice) {
     Snackbar.make(findViewById(android.R.id.content), makeDrawMessage(computerChoice),
         Snackbar.LENGTH_LONG).setAction("Action", null).show();
   }
 
+  /**
+   * Efface le récapitulatif des scores si necessaire
+   */
   private void eraseScoreMessageIfNeeded() {
     TextView scoreMsg = (TextView) findViewById(R.id.scores_msg);
     if (playerScore <= 0 && computerScore <= 0)
@@ -238,6 +286,11 @@ public class MainActivity
     return true;
   }
 
+  /**
+   * Réinitialise les scores et les messages lors du click sur le bouton.
+   *
+   * @param v la vue
+   */
   public void onEraseButtonClick(View v) {
     this.computerScore = 0;
     this.playerScore = 0;

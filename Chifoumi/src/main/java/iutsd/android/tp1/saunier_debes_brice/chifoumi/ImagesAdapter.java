@@ -18,29 +18,30 @@ import android.widget.TextView;
 import java.io.Serializable;
 
 /**
- * The type Images adapter.
+ * L’adapter d’images (cartes). Les converties en vues.
  */
 public class ImagesAdapter
-    extends RecyclerView.Adapter<ImagesAdapter.ImagesViewHolder> implements Serializable{
+    extends RecyclerView.Adapter<ImagesAdapter.ImagesViewHolder>
+    implements Serializable {
 
 // ------------------------------ FIELDS ------------------------------
 
   /**
-   * The Context.
+   * Le context de l’activité
    */
-  private Context    context;
+  private Context context;
 
   /**
-   * The Img names.
+   * Les noms des images.
    */
-  private String[]   imgNames;
+  private String[] imgNames;
 
 // --------------------------- CONSTRUCTORS ---------------------------
 
   /**
-   * Instantiates a new Images adapter.
+   * Instancie un nouveau Images adapter.
    *
-   * @param context the context
+   * @param context le context
    */
   public ImagesAdapter(Context context) {
     this.context = context;
@@ -49,15 +50,16 @@ public class ImagesAdapter
 
 // -------------------------- OTHER METHODS --------------------------
 
-  //lolz
+  /**
+   * Get les ID des images.
+   *
+   * @return les id des images
+   */
+//lolz
   private TypedArray getImgIDs() {
     return context.getResources().obtainTypedArray(R.array.img_ids);
   }
 
-  public String getImgName(int index) {
-    this.imgNames = context.getResources().getStringArray(R.array.cards_name);
-    return imgNames[index];
-  }
   @Override
   public int getItemCount() {
     return imgNames.length;
@@ -73,13 +75,26 @@ public class ImagesAdapter
   }
 
   /**
-   * Gets item.
+   * Get les informations d’une image.
    *
-   * @param i the
+   * @param i l’index de l’image
    *
-   * @return the item
+   * @return Les informations des images
    */
-  private ImagesInfo getItem(int i) { return new ImagesInfo(getImgName(i), getImgIDs().getResourceId(i, -1));
+  private ImagesInfo getItem(int i) {
+    return new ImagesInfo(getImgName(i), getImgIDs().getResourceId(i, -1));
+  }
+
+  /**
+   * Get le nom d’une image.
+   *
+   * @param index l’index
+   *
+   * @return Le nom de l’image
+   */
+  public String getImgName(int index) {
+    this.imgNames = context.getResources().getStringArray(R.array.cards_name);
+    return imgNames[index];
   }
 
   @Override
@@ -93,24 +108,25 @@ public class ImagesAdapter
 
 // -------------------------- INNER CLASSES --------------------------
 
+
   /**
-   * The type Images view holder.
+   * Stock des données pour faciliter la liaison entre les contenus.
    */
   public class ImagesViewHolder
       extends RecyclerView.ViewHolder {
     /**
-     * The V name.
+     * Le nom du TextView.
      */
     protected TextView  vName;
     /**
-     * The V image.
+     * Le nom de l’ImageView.
      */
     protected ImageView vImage;
 
     /**
-     * Instantiates a new image view holder.
+     * Instancie un nouveau ImagesViewHolder.
      *
-     * @param v the v
+     * @param v la vue
      */
     public ImagesViewHolder(View v) {
       super(v);

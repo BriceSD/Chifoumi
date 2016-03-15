@@ -28,8 +28,7 @@
           android:layout_height="wrap_content"
           android:textAppearance="?android:attr/textAppearanceMedium"
           android:id="@+id/scores_msg"
-          android:layout_gravity="center" android:gravity="fill_horizontal|center"
-      />
+          android:layout_gravity="center" android:gravity="fill_horizontal|center"/>
       <Button
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
