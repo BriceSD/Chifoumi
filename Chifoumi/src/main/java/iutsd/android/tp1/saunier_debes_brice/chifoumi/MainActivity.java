@@ -35,6 +35,10 @@ public class MainActivity
    * Le score du joueur
    */
   int           playerScore;
+  /**
+   * Liste compremant les différentes cartes (actions) à afficher
+   */
+  private RecyclerView cardsList;
 
 // -------------------------- OTHER METHODS --------------------------
 
@@ -96,47 +100,43 @@ public class MainActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    RecyclerView cardsList;
-
-    cardsList = setUpCardsListView();
-    setUpLayoutManager(cardsList);
-    setOnItemTouchListener(cardsList);
+    //En premier les cardsView sont crées, puis le bon layout est choisi en fonction de
+    // l’orientation de l’écran, les cartes sont attachés à l’activité mère, ajout des listener,
+    // supprime le récapitulatif des scores si necessaire (comme en cas d’écran tourné sans action préalable)
+    setUpCardsListView();
+    setUpLayoutManager();
+    setOnItemTouchListener();
     eraseScoreMessageIfNeeded();
   }
 
   /**
    * Crée la vue contenant les différentes cartes.
-   *
-   * @return La card list view
    */
-  private RecyclerView setUpCardsListView() {
+  private void setUpCardsListView() {
     adapter = new ImagesAdapter(this);
 
     RecyclerView cardsList = (RecyclerView) findViewById(R.id.cards_list);
     cardsList.setAdapter(adapter);
-    return cardsList;
+    this.cardsList = cardsList;
   }
 
   /**
    * Crée le layout manager selon l’orientation de l’écran.
-   *
-   * @param cardsList La card list à attacher au LayoutManager
    */
-  private void setUpLayoutManager(RecyclerView cardsList) {
+  private void setUpLayoutManager() {
     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
       cardsList.setLayoutManager(new GridLayoutManager(this, 2));
     else
-      cardsList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+      cardsList
+          .setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
   }
 
   /**
    * Mets en place le « on item click listener ». Permet à l’utilisateur de cliquer sur les images.
    * L’ordinateur fait son choix d’action and en fonction du vaiqueur du match, le nouveau score
    * est calculé et le nouveau message est affiché
-   *
-   * @param cardsList la cards list contenant les différentes images (actions)
    */
-  private void setOnItemTouchListener(RecyclerView cardsList) {
+  private void setOnItemTouchListener() {
     cardsList.addOnItemTouchListener(new RecyclerItemClickListener(getBaseContext(),
         new RecyclerItemClickListener.OnItemClickListener() {
           @SuppressWarnings("Duplicates")
@@ -226,6 +226,7 @@ public class MainActivity
    * @param computerChoice l’index du choix de l’ordinateur
    */
   private void makeComputerWinAlert(int computerChoice) {
+    //OUUUUUUUUUUUIIIIIIIIIIIIIIII J’AI RÉUSSI J’AI UN SNACKBAR
     Snackbar.make(findViewById(android.R.id.content), makeComputerWinMessage(computerChoice),
         Snackbar.LENGTH_LONG).setAction("Action", null).show();
   }
@@ -254,6 +255,7 @@ public class MainActivity
 
   /**
    * Actions en cas de match nul.
+   *
    * @param computerChoice l’index du choix de l’ordinateur
    */
   private void draw(int computerChoice) {
@@ -287,7 +289,7 @@ public class MainActivity
   }
 
   /**
-   * Réinitialise les scores et les messages lors du click sur le bouton.
+   * Réinitialise les scores et le récapitulatif des scores lors du click sur le bouton.
    *
    * @param v la vue
    */
@@ -316,6 +318,7 @@ public class MainActivity
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
 
+    //Comme d’hab, les variables sauvegardées sont réutilisées
     this.adapter = (ImagesAdapter) savedInstanceState.getSerializable("ImagesAdapter");
     this.playerScore = savedInstanceState.getInt("PlayerScore");
     this.computerScore = savedInstanceState.getInt("ComputerScore");
@@ -327,6 +330,8 @@ public class MainActivity
   @Override
   protected void onResume() {
     super.onResume();
+
+    //Suppression du message des scores si necessaire
     eraseScoreMessageIfNeeded();
   }
 
@@ -334,6 +339,7 @@ public class MainActivity
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
 
+    //Comme d’hab, les variables contenant des informations importantes sont sauvegardées
     outState.putSerializable("ImagesAdapter", this.adapter);
     outState.putInt("PlayerScore", this.playerScore);
     outState.putInt("ComputerScore", this.computerScore);
