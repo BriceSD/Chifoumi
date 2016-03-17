@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.io.Serializable;
 
 /**
- * The type Main activity.
+ * L’activité principale
  */
 public class MainActivity
     extends AppCompatActivity
@@ -100,12 +100,14 @@ public class MainActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    //En premier les cardsView sont crées, puis le bon layout est choisi en fonction de
-    // l’orientation de l’écran, les cartes sont attachés à l’activité mère, ajout des listener,
-    // supprime le récapitulatif des scores si necessaire (comme en cas d’écran tourné sans action préalable)
+    //En premier les cardsView sont crées,
     setUpCardsListView();
+    //puis le bon layout est choisi en fonction de  l’orientation de l’écran
     setUpLayoutManager();
+    // les cartes sont attachés à l’activité mère, ajout des listener
     setOnItemTouchListener();
+    // ensuite suppression le récapitulatif des scores si necessaire (comme en cas d’écran tourné
+    // sans action préalable)
     eraseScoreMessageIfNeeded();
   }
 
@@ -142,6 +144,7 @@ public class MainActivity
           @SuppressWarnings("Duplicates")
           @Override
           public void onItemClick(View view, int playerChoice) {
+            //Choix de l’ordinateur entre 0 et 3
             int computerChoice = (int) (Math.random() * 4);
 
             final boolean computerHasSelectedPit      = computerChoice == 0;
@@ -154,6 +157,8 @@ public class MainActivity
             final boolean playerHasSelectedScissors = playerChoice == 2;
             final boolean playerHasSelectedSheet    = playerChoice == 3;
 
+            //Défini qui de l’ordinateur ou du joueur gagne (ou s’il y a match nul)
+            // et appel la méthode entreprenant les actions correspondante
             if (playerHasSelectedPit) {
               if (computerHasSelectedRock || computerHasSelectedScissors)
                 playerWin(computerChoice);
@@ -213,6 +218,9 @@ public class MainActivity
    * @return le message contenant les scores
    */
   private String makeScoreMessage() {
+    //Cherche le mot "joueur" dans la bonne langue ainsi que le mot "/ Computer". À l’avenir faire
+    //quelque chose du genre "%PLAYER% : " + playerScore + " / %COMPUTER% : " + computerScore
+    //et remplacer les %MOT% par la chaine de caractère dans la langue adéquate
     String msg = getBaseContext().getString(R.string.player_result);
     msg += " " + playerScore;
     msg += " " + getBaseContext().getString(R.string.computer_result);
@@ -227,6 +235,9 @@ public class MainActivity
    */
   private void makeComputerWinAlert(int computerChoice) {
     //OUUUUUUUUUUUIIIIIIIIIIIIIIII J’AI RÉUSSI J’AI UN SNACKBAR
+    //Vous aviez raison sur le fait qu’il fallait que mon application utilise un certain thème, bien
+    //que je n’ai pu savoir pourquoi ça n’avait pas marché en TP.
+    //Ce snackbar contient le choix de l’ordinateur ainsi que le gagnant, ici l’ordinateur
     Snackbar.make(findViewById(android.R.id.content), makeComputerWinMessage(computerChoice),
         Snackbar.LENGTH_LONG).setAction("Action", null).show();
   }
@@ -238,8 +249,12 @@ public class MainActivity
    * @param computerChoice l’index du choix de l’ordinateur
    */
   private void playerWin(int computerChoice) {
+    //En cas de victoire du joueur
+    //sont score est incrémenté
     playerScore++;
+    //le message récapitulant les scores est mis à jour
     setScoreText();
+    //un snackbar indiquant qu’il a gagné et le choix de l’ordinateur est affiché
     makePlayerWinAlert(computerChoice);
   }
 
@@ -249,6 +264,7 @@ public class MainActivity
    * @param computerChoice l’index du choix de l’ordinateur
    */
   private void makePlayerWinAlert(int computerChoice) {
+    //Ce snackbar contient le choix de l’ordinateur ainsi que le gagnant, ici le joueur
     Snackbar.make(findViewById(android.R.id.content), makePlayerWinMessage(computerChoice),
         Snackbar.LENGTH_LONG).setAction("Action", null).show();
   }
@@ -259,6 +275,8 @@ public class MainActivity
    * @param computerChoice l’index du choix de l’ordinateur
    */
   private void draw(int computerChoice) {
+    //J’ai choisi de faire cette méthode pour garder le même niveau d’abstraction entre les
+    // différentes méthode qui gèrent les scores/messages/snackbar de victoire
     makeDrawAlert(computerChoice);
   }
 
@@ -268,6 +286,7 @@ public class MainActivity
    * @param computerChoice l’index du choix de l’ordinateur
    */
   private void makeDrawAlert(int computerChoice) {
+    //Ce snackbar contient le choix de l’ordinateur ainsi que le gagnant, ici matche nul
     Snackbar.make(findViewById(android.R.id.content), makeDrawMessage(computerChoice),
         Snackbar.LENGTH_LONG).setAction("Action", null).show();
   }
@@ -294,8 +313,10 @@ public class MainActivity
    * @param v la vue
    */
   public void onEraseButtonClick(View v) {
+    //Les scores sont remis à zéro
     this.computerScore = 0;
     this.playerScore = 0;
+    //Le message récapitulant les scores est effacé
     eraseScoreMessageIfNeeded();
   }
 

@@ -55,7 +55,10 @@ public class ImagesAdapter
    *
    * @return les id des images
    */
-//lolz
+  //lolz
+  //Comment faire en sorte de sauvegarder des ID des images ? Un typed array n’étant pas
+  // sérialasable je n’ai pas trouvé une autre solution que de chercher ces informations dans la
+  // classe R à chaque fois
   private TypedArray getImgIDs() {
     return context.getResources().obtainTypedArray(R.array.img_ids);
   }
@@ -67,9 +70,13 @@ public class ImagesAdapter
 
   @Override
   public void onBindViewHolder(ImagesViewHolder imagesViewHolder, int i) {
+    //Lorsque la vue créée est liée à sa vue mère
+    //L’image à l’index i est cherchée
     ImagesInfo img = getItem(i);
 
+    //Le nom de l’image est mis dans la vue
     imagesViewHolder.vName.setText(img.name);
+    //Puis l’image en elle même
     imagesViewHolder.vImage.setImageResource(img.id);
 
   }
@@ -82,13 +89,14 @@ public class ImagesAdapter
    * @return Les informations des images
    */
   private ImagesInfo getItem(int i) {
+    //Retourne les informations d’une image d’une manière compréhensible en java pour le coder
     return new ImagesInfo(getImgName(i), getImgIDs().getResourceId(i, -1));
   }
 
   /**
    * Get le nom d’une image.
    *
-   * @param index l’index
+   * @param index l’index de l’image
    *
    * @return Le nom de l’image
    */
@@ -99,9 +107,9 @@ public class ImagesAdapter
 
   @Override
   public ImagesViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-    // create a new view
+    // Crée une nouvelle vue en deserialisant du XML, ici le layout cards_view
     View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cards_view, parent, false);
-    // set the view's size, margins, paddings and layout parameters
+    // Met la taille de la vue, les marges et les paramètres du layout
     ImagesViewHolder vh = new ImagesViewHolder(v);
     return vh;
   }
@@ -110,7 +118,8 @@ public class ImagesAdapter
 
 
   /**
-   * Stock des données pour faciliter la liaison entre les contenus.
+   * Stock des données pour faciliter la liaison entre les contenus, permet entre autre de rentre le
+   * scrolling plus "smooth", moins de lag
    */
   public class ImagesViewHolder
       extends RecyclerView.ViewHolder {
